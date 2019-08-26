@@ -2,7 +2,6 @@ const help = `
 USAGE:
         node get-log <Key Name>
 `
-const { readFileSync } = require('fs')
 const { resolve } = require('path')
 const grpc = require('grpc')
 const caller = require('grpc-caller')
@@ -18,20 +17,16 @@ if(!key){
   process.exit(1)
 }
 
-let credentials
-  credentials = grpc.credentials.createInsecure()
-
 const client = caller(
   SERVER_ADDR,
   resolve(__dirname, PROTO_PATH),
-  SERVICE_NAME,
-  credentials
+  SERVICE_NAME
 )
 
 const init = async () => {
   try{
 
-    let { timestamp, data } = await client.GetLog({ key })
+    const { timestamp, data } = await client.GetLog({ key })
     console.log({
       timestamp: tsToDate(timestamp),
       data

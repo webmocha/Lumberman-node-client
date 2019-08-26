@@ -2,7 +2,6 @@ const help = `
 USAGE:
         node list-prefixes
 `
-const { readFileSync } = require('fs')
 const { resolve } = require('path')
 const grpc = require('grpc')
 const caller = require('grpc-caller')
@@ -16,14 +15,10 @@ if(process.argv.length > 2){
   process.exit(1)
 }
 
-let credentials
-  credentials = grpc.credentials.createInsecure()
-
 const client = caller(
   SERVER_ADDR,
   resolve(__dirname, PROTO_PATH),
-  SERVICE_NAME,
-  credentials
+  SERVICE_NAME
 )
 
 const init = async () => {

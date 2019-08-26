@@ -2,7 +2,6 @@ const help = `
 USAGE:
         node get-logs <Prefix>
 `
-const { readFileSync } = require('fs')
 const { resolve } = require('path')
 const grpc = require('grpc')
 const caller = require('grpc-caller')
@@ -18,28 +17,24 @@ if(!prefix){
   process.exit(1)
 }
 
-let credentials
-  credentials = grpc.credentials.createInsecure()
-
 const client = caller(
   SERVER_ADDR,
   resolve(__dirname, PROTO_PATH),
-  SERVICE_NAME,
-  credentials
+  SERVICE_NAME
 )
 
 const init = async () => {
   try{
 
-    let { logs } = await client.GetLogs({ prefix })
+    const { logs } = await client.GetLogs({ prefix })
 
-    logs = logs.map(({ key, timestamp, data }) => ({
-      key,
-      timestamp: tsToDate(timestamp),
-      data
-    }))
-
-    console.log(logs)
+    console.log(
+      logs.map(({ key, timestamp, data }) => ({
+        key,
+        timestamp: tsToDate(timestamp),
+        data
+      }))
+    )
 
   }catch(err){
     console.log(err)

@@ -2,7 +2,6 @@ const help = `
 USAGE:
         node log <Prefix Name> <Log Object>
 `
-const { readFileSync } = require('fs')
 const { resolve } = require('path')
 const grpc = require('grpc')
 const caller = require('grpc-caller')
@@ -18,14 +17,10 @@ if(!prefix && !data){
   process.exit(1)
 }
 
-let credentials
-  credentials = grpc.credentials.createInsecure()
-
 const client = caller(
   SERVER_ADDR,
   resolve(__dirname, PROTO_PATH),
-  SERVICE_NAME,
-  credentials
+  SERVICE_NAME
 )
 
 const init = async () => {
