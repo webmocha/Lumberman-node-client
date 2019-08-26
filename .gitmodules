@@ -1,0 +1,3 @@
+[submodule "Lumberman"]
+	path = Lumberman
+	url = git@github.com:webmocha/Lumberman.git
