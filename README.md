@@ -10,8 +10,6 @@ git submodule update
 npm install
 ```
 
-copy `ca.crt`, `client.crt`, `client.key` to `certs/`
-
 ## Lumberman LogService
 
 see [lumberman.proto](https://github.com/webmocha/Lumberman/blob/master/lumberman.proto)
@@ -27,15 +25,15 @@ node log <Prefix> <Log Object>
 examples:
 
 ```sh
-node log user-search 'cat'
+node user-search 'cat'
 ```
 
 ```sh
-node log user-click '{ "href": "/login" }'
+node user-click '{ "href": "/login" }'
 ```
 
 ```sh
-node log player-move '{ "x": 20, "y": -42, "z": 1 }'
+node player-move '{ "x": 20, "y": -42, "z": 1 }'
 ```
 
 ### Get Log by key
@@ -52,7 +50,7 @@ node get-log 'user-click|2019-08-26T06:19:02.662282619Z'
 
 output:
 
-```javascript
+```
 {
   timestamp: 2019-08-26T06:19:02.000Z,
   data: '{ "href": "/login" }'
@@ -73,7 +71,7 @@ node get-logs user-search
 
 output:
 
-```javascript
+```
 [
   {
     key: 'user-search|2019-08-26T01:30:42.620978567Z',
@@ -107,7 +105,7 @@ node stream-logs user-click
 
 output:
 
-```javascript
+```
 {
   key: 'user-click|2019-08-26T06:19:00.062988065Z',
   timestamp: 2019-08-26T06:19:00.000Z,
@@ -131,7 +129,7 @@ example output:
 ```javascript
 {
   prefixes: [
-    'cat',
+    'user-search',
     'user-click',
     'player-move'
   ]
