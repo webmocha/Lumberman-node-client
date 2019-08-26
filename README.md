@@ -170,3 +170,11 @@ output:
   ]
 }
 ```
+
+### Flood logs for prefix
+
+floods log for 10 minutes
+
+```sh
+node log-flood <Prefix>
+```

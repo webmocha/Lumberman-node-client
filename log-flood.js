@@ -1,10 +1,11 @@
-const help = `
+const help = `Repeatedly Puts Log for 10 minutes
+
 USAGE:
-        node stream-logs <Prefix>
+        node log <Prefix>
 `
 const { resolve } = require('path')
+const grpc = require('grpc')
 const caller = require('grpc-caller')
-const { tsToDate } = require('./utils')
 
 const PROTO_PATH = process.env.PROTO_PATH || './Lumberman/lumberman.proto'
 const SERVER_ADDR = process.env.SERVER_ADDR || '127.0.0.1:9090'
@@ -22,12 +23,16 @@ const client = caller(
   SERVICE_NAME
 )
 
-const stream = client.StreamLogs({ prefix })
+const end = new Date()
+end.setMinutes( end.getMinutes() + 10 );
 
-stream.on('data', ({ key, timestamp, data }) => console.log({
-  key,
-  timestamp: tsToDate(timestamp),
-  data
-}))
+(async () => {
+  while(new Date() < end)
+    await client.Log({
+      prefix,
+      data: Math.random().toString(36).substring(2, 15)
+    })
 
-stream.on('end', s => console.log(s, 'ended'))
+  console.log("DONE")
+  process.exit(0)
+})()
