@@ -30,4 +30,6 @@ stream.on('data', ({ key, timestamp, data }) => console.log({
   data
 }))
 
+stream.on('error', err => console.log(err.toString()))
+
 stream.on('end', s => console.log(s, 'ended'))

@@ -37,7 +37,7 @@ const init = async () => {
     )
 
   }catch(err){
-    console.log(err)
+    console.log(err.toString())
   }
 }
 
