@@ -31,15 +31,15 @@ node log <Prefix> <Log Object>
 examples:
 
 ```sh
-node user-search 'cat'
+node put-log user-search 'cat'
 ```
 
 ```sh
-node user-click '{ "href": "/login" }'
+node put-log user-click '{ "href": "/login" }'
 ```
 
 ```sh
-node player-move '{ "x": 20, "y": -42, "z": 1 }'
+node put-log player-move '{ "x": 20, "y": -42, "z": 1 }'
 ```
 
 ### Get Log by key
@@ -134,13 +134,13 @@ output:
 _stream stays open, tailing new log events_
 
 ```sh
-node stream-logs <Prefix>
+node tail-log-stream <Prefix>
 ```
 
 example:
 
 ```sh
-node stream-logs user-click
+node tail-log-stream user-click
 ```
 
 output:
@@ -179,13 +179,13 @@ example output:
 ### List Log keys by prefix
 
 ```sh
-node list-logs <Prefix>
+node list-keys <Prefix>
 ```
 
 example:
 
 ```sh
-node list-logs user-click
+node list-keys user-click
 ```
 
 output:
@@ -209,10 +209,30 @@ output:
 }
 ```
 
-### Flood logs for prefix
+### Put n logs by calling n unary rpc calls
 
-floods log for 10 minutes
+Default `n: 1000`
 
 ```sh
-node log-flood <Prefix>
+node put-logs-unary <Prefix> (n:1000)
+```
+
+example:
+
+```sh
+node put-logs-unary 'test-unary' 2500
+```
+
+### Put n logs using single bidirectional rpc stream
+
+Default `n: 1000`
+
+```sh
+node put-logs-stream <Prefix> (n:1000)
+```
+
+example:
+
+```sh
+node put-logs-stream 'test-stream' 2500
 ```

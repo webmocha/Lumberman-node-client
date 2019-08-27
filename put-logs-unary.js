@@ -1,7 +1,7 @@
-const help = `Repeatedly Puts Log for 10 minutes
+const help = `Put n logs using unary rpc calls to PutLog
 
 USAGE:
-        node log <Prefix>
+        node put-logs-unary <Prefix> (n:1000)
 `
 const { resolve } = require('path')
 const grpc = require('grpc')
@@ -12,27 +12,28 @@ const SERVER_ADDR = process.env.SERVER_ADDR || '127.0.0.1:9090'
 const SERVICE_NAME = process.env.SERVICE_NAME || 'Logger'
 
 const prefix = process.argv[2]
+const logsToPost = process.argv[3] || 1000
 if(!prefix){
   console.log(help)
   process.exit(1)
 }
 
-const client = caller(
-  SERVER_ADDR,
-  resolve(__dirname, PROTO_PATH),
-  SERVICE_NAME
-)
-
-const end = new Date()
-end.setMinutes( end.getMinutes() + 10 );
 
 (async () => {
-  while(new Date() < end)
-    await client.Log({
+
+  const client = caller(
+    SERVER_ADDR,
+    resolve(__dirname, PROTO_PATH),
+    SERVICE_NAME
+  )
+
+  for (let i = 0; i < logsToPost; ++i) {
+    res = await client.PutLog({
       prefix,
       data: Math.random().toString(36).substring(2, 15)
     })
 
-  console.log("DONE")
-  process.exit(0)
+    console.log(res)
+  }
+
 })()

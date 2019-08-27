@@ -1,6 +1,6 @@
 const help = `
 USAGE:
-        node list-logs <Prefix>
+        node put-log <Prefix> <Log Data>
 `
 const { resolve } = require('path')
 const grpc = require('grpc')
@@ -11,7 +11,8 @@ const SERVER_ADDR = process.env.SERVER_ADDR || '127.0.0.1:9090'
 const SERVICE_NAME = process.env.SERVICE_NAME || 'Logger'
 
 const prefix = process.argv[2]
-if(!prefix){
+const data = process.argv[3]
+if(!prefix && !data){
   console.log(help)
   process.exit(1)
 }
@@ -25,7 +26,7 @@ const client = caller(
 const init = async () => {
   try{
 
-    const res = await client.ListLogs({ prefix })
+    const res = await client.PutLog({ prefix, data })
 
     console.log(res)
 

@@ -1,6 +1,6 @@
 const help = `
 USAGE:
-        node stream-logs <Prefix>
+        node tail-log-stream <Prefix>
 `
 const { resolve } = require('path')
 const caller = require('grpc-caller')
@@ -22,7 +22,7 @@ const client = caller(
   SERVICE_NAME
 )
 
-const stream = client.StreamLogs({ prefix })
+const stream = client.TailLogStream({ prefix })
 
 stream.on('data', ({ key, timestamp, data }) => console.log({
   key,
@@ -32,4 +32,4 @@ stream.on('data', ({ key, timestamp, data }) => console.log({
 
 stream.on('error', err => console.log(err.toString()))
 
-stream.on('end', s => console.log(s, 'ended'))
+stream.on('end', () => process.exit(0))
