@@ -5,7 +5,7 @@
 <h1 align="center">Lumberman node client</h1>
 
 <p align="center">
-  <strong>Lumberman client reference implementation for node</strong>
+  <strong><a href="https://github.com/webmocha/Lumberman">Lumberman</a> client reference implementation for node</strong>
 </p>
 
 ## Requirements
