@@ -97,7 +97,41 @@ output:
 ]
 ```
 
+### Get all Logs as stream by prefix
+
+```sh
+node get-logs-stream <Prefix>
+```
+
+example:
+
+```sh
+node get-logs-stream user-search
+```
+
+output:
+
+```
+{
+  key: 'user-search|2019-08-26T01:30:42.620978567Z',
+  timestamp: 2019-08-26T01:30:42.000Z,
+  data: 'cat'
+}
+{
+  key: 'user-search|2019-08-26T01:31:38.844208133Z',
+  timestamp: 2019-08-26T01:31:38.000Z,
+  data: 'doggo'
+}
+{
+  key: 'user-search|2019-08-26T01:31:42.385940486Z',
+  timestamp: 2019-08-26T01:31:42.000Z,
+  data: 'birb'
+}
+```
+
 ### Stream Logs by prefix
+
+_stream stays open, tailing new log events_
 
 ```sh
 node stream-logs <Prefix>
