@@ -8,7 +8,55 @@
   <strong><a href="https://github.com/webmocha/Lumberman">Lumberman</a> client reference implementation for node</strong>
 </p>
 
-## Requirements
+## Reference
+
+This repo contains runnable examples for connecting to [Lumberman](https://github.com/webmocha/Lumberman) grpc server and making calls to each function.
+
+Browse through each example for more details.
+
+## Lumberman Service Definition
+
+see [lumberman.proto](https://github.com/webmocha/Lumberman/blob/master/lumberman.proto)
+
+
+## Quick Guide
+
+### Create a grpc client
+
+```javascript
+const client = caller(
+  '127.0.0.1:9090',
+  resolve(__dirname, './Lumberman/lumberman.proto'),
+  'Lumberman'
+)
+```
+
+### List keys for Prefix
+
+```javascript
+const res = await client.ListKeys({ prefix })
+
+console.log(res)
+```
+
+### Get all logs from a stream
+
+```javascript
+const stream = client.GetLogsStream({ prefix })
+
+stream.on('data', ({ key, timestamp, data }) => {
+  // ...
+})
+
+stream.on('error', err => console.log(err.toString()))
+
+stream.on('end', () => {})
+```
+
+
+## Usage
+
+### Requirements
 
 ```sh
 git submodule init
@@ -16,13 +64,23 @@ git submodule update
 npm install
 ```
 
-## Lumberman LogService
+### Options
 
-see [lumberman.proto](https://github.com/webmocha/Lumberman/blob/master/lumberman.proto)
+Define server address
 
-## Usage
+_default is `127.0.0.1:9090`_
+
+override with `SERVER_ADDR` env
+
+example:
+
+```sh
+env SERVER_ADDR=172.17.0.14:5000 node list-prefixes
+```
 
 ### Write to Log
+
+[put-log.js](./put-log.js)
 
 ```sh
 node log <Prefix> <Log Object>
@@ -44,6 +102,8 @@ node put-log player-move '{ "x": 20, "y": -42, "z": 1 }'
 
 ### Get Log by key
 
+[get-log.js](./get-log.js)
+
 ```sh
 node get-log <Key Name>
 ```
@@ -64,6 +124,8 @@ output:
 ```
 
 ### Get all Logs by prefix
+
+[get-logs.js](./get-logs.js)
 
 ```sh
 node get-logs <Prefix>
@@ -99,6 +161,8 @@ output:
 
 ### Get all Logs as stream by prefix
 
+[get-logs-stream.js](./get-logs-stream.js)
+
 ```sh
 node get-logs-stream <Prefix>
 ```
@@ -131,6 +195,8 @@ output:
 
 ### Stream Logs by prefix
 
+[tail-log-stream.js](./tail-log-stream.js)
+
 _stream stays open, tailing new log events_
 
 ```sh
@@ -160,6 +226,8 @@ output:
 
 ### List Log prefixes
 
+[list-prefixes.js](./list-prefixes.js)
+
 ```sh
 node list-prefixes
 ```
@@ -177,6 +245,8 @@ example output:
 ```
 
 ### List Log keys by prefix
+
+[list-keys.js](./list-keys.js)
 
 ```sh
 node list-keys <Prefix>
@@ -211,6 +281,8 @@ output:
 
 ### Put n logs by calling n unary rpc calls
 
+[put-logs-unary.js](./put-logs-unary.js)
+
 Default `n: 1000`
 
 ```sh
@@ -224,6 +296,8 @@ node put-logs-unary 'test-unary' 2500
 ```
 
 ### Put n logs using single bidirectional rpc stream
+
+[put-logs-stream.js](./put-logs-stream.js)
 
 Default `n: 1000`
 
